@@ -1,0 +1,37 @@
+version: "3"
+
+networks:
+  services:
+    driver: bridge
+
+volumes:
+  db-save:
+    driver: local
+
+services:
+
+  storage:
+    build:
+      context: ../
+      dockerfile: .deploy/Dockerfile
+      args:
+        DBNAME: ${DB_NAME:-postgres}
+        DBUSER: ${DB_USER:-postgres}
+        DBPASSWORD: ${DB_PASSWORD:-postgres}
+        DBHOST: ${DB_HOST:-localhost}
+        APIKEY: ${API_KEY}
+    ports:
+      - "8008:8000"
+    networks:
+      - services
+
+  db:
+    image: postgres:15-alpine3.17
+    environment:
+      POSTGRES_USER: retmix
+      POSTGRES_DB: retmix
+      POSTGRES_PASSWORD: retmix
+    ports:
+      - "5432:5432"
+    networks:
+      - services
