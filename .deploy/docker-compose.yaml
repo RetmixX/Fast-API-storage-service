@@ -18,7 +18,7 @@ services:
         DBNAME: ${DB_NAME:-postgres}
         DBUSER: ${DB_USER:-postgres}
         DBPASSWORD: ${DB_PASSWORD:-postgres}
-        DBHOST: ${DB_HOST:-localhost}
+        DBHOST: ${DB_HOST:-db}
         APIKEY: ${API_KEY}
     ports:
       - "8008:8000"
@@ -28,9 +28,9 @@ services:
   db:
     image: postgres:15-alpine3.17
     environment:
-      POSTGRES_USER: retmix
-      POSTGRES_DB: retmix
-      POSTGRES_PASSWORD: retmix
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_DB: ${DB_NAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     networks:
